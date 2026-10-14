@@ -1,0 +1,92 @@
+- var pageTitle = page.title || ''
+- if (pageType === 'archive') pageTitle = __('archive.title')
+- else if (pageType === 'category' && page.category) pageTitle = page.category
+- else if (pageType === 'tag' && page.tag) pageTitle = page.tag
+- else if (pageType === '404') pageTitle = __('page.not_found')
+- var isHomePage = pageType === 'home'
+- var tabTitle = (isHomePage || !pageTitle) ? (config.title + (config.subtitle ? ' · ' + config.subtitle : '')) : pageTitle + ' · ' + config.title
+- var metaDesc = page.description || (page.excerpt ? strip_html(page.excerpt) : '') || config.description || ''
+- metaDesc = String(metaDesc).replace(/\s+/g, ' ').trim().slice(0, 150)
+- var canonical = isHomePage ? full_url_for('/') : full_url_for(page.path || '/')
+- var ogImage = page.cover ? full_url_for(page.cover) : ''
+
+meta(charset='utf-8')
+meta(http-equiv='X-UA-Compatible', content='IE=edge')
+meta(name='viewport', content='width=device-width, initial-scale=1, viewport-fit=cover')
+title= tabTitle
+meta(name='author', content=config.author || '')
+meta(name='description', content=metaDesc)
+meta(name='format-detection', content='telephone=no')
+meta(name='theme-color', content='#ffffff', media='(prefers-color-scheme: light)')
+meta(name='theme-color', content='#000000', media='(prefers-color-scheme: dark)')
+meta(name='color-scheme', content='light dark')
+link(rel='canonical', href=canonical)
+!= favicon_tag(config.favicon || '')
+
+//- Open Graph
+meta(property='og:type', content=is_post() ? 'article' : 'website')
+meta(property='og:title', content=tabTitle)
+meta(property='og:description', content=metaDesc)
+meta(property='og:url', content=canonical)
+meta(property='og:site_name', content=config.title || '')
+meta(property='og:locale', content=(config.language || 'zh-CN').replace('-', '_'))
+if ogImage
+  meta(property='og:image', content=ogImage)
+if is_post()
+  meta(property='article:published_time', content=date_xml(page.date))
+  if page.updated
+    meta(property='article:modified_time', content=date_xml(page.updated))
+  if page.categories && page.categories.length
+    each cat in page.categories.toArray()
+      meta(property='article:section', content=cat.name)
+  if page.tags && page.tags.length
+    each t in page.tags.toArray()
+      meta(property='article:tag', content=t.name)
+meta(name='twitter:card', content=ogImage ? 'summary_large_image' : 'summary')
+meta(name='twitter:title', content=tabTitle)
+meta(name='twitter:description', content=metaDesc)
+if ogImage
+  meta(name='twitter:image', content=ogImage)
+
+//- JSON-LD
+-
+  var ldData = is_post() ? {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: page.title || '',
+    datePublished: date_xml(page.date),
+    dateModified: date_xml(page.updated || page.date),
+    author: { '@type': 'Person', name: config.author || '' },
+    publisher: { '@type': 'Organization', name: config.title || '' },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+    description: metaDesc
+  } : {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: config.title || '',
+    url: full_url_for('/'),
+    description: config.description || ''
+  }
+script(type='application/ld+json')!= JSON.stringify(ldData)
+
+//- 防止深色模式闪烁：必须在 CSS 之前执行
+script.
+  (function () {
+    try {
+      var d = document.documentElement;
+      var pref = d.getAttribute('data-theme-default') || 'auto';
+      var saved = localStorage.getItem('clarity-theme');
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var theme = saved || (pref === 'auto' ? (dark ? 'dark' : 'light') : pref);
+      d.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  })();
+
+link(rel='stylesheet', href=clarity_asset('/css/clarity.css'))
+style!= ':root{--accent:' + accent + ';--accent-dark:' + accentDark + '}'
+if is_post() && page.cover
+  link(rel='preload', as='image', href=url_for(page.cover))
+if isHomePage && theme.cover && theme.cover.enable
+  link(rel='preload', as='image', href=url_for(theme.cover.image || '/images/cover.jpg'), fetchpriority='high')

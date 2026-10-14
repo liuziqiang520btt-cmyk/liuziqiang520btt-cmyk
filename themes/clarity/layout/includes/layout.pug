@@ -1,0 +1,24 @@
+- var pageType = is_home() ? 'home' : is_post() ? 'post' : is_archive() ? 'archive' : is_category() ? 'category' : is_tag() ? 'tag' : (page.type === '404' ? '404' : 'page')
+- var accent = theme.accent || '#0071e3'
+- var accentDark = theme.accent_dark || '#0a84ff'
+- var brandName = theme.brand.name || config.title || ''
+- var themeDefault = (theme.appearance && theme.appearance.default) || 'auto'
+- var hasProfile = !!(theme.profile && theme.profile.enable) && pageType !== '404' && page.sidebar !== false
+- var hasCover = pageType === 'home' && !!(theme.cover && theme.cover.enable)
+
+doctype html
+html(lang=config.language || 'zh-CN', data-theme-default=themeDefault, data-smooth=theme.smooth_scroll === false ? 'off' : 'on', data-copy=__('page.copy'), data-copied=__('page.copied'))
+  head
+    include head.pug
+  body(class='page-' + pageType + (hasProfile ? ' has-rail' : ' no-rail') + (hasCover ? ' has-cover' : ''))
+    a.skip-link(href='#main')= __('nav.home')
+    include nav.pug
+    main#main(role='main')
+      block cover
+      .shell
+        if hasProfile
+          include profile.pug
+        .shell-main
+          block content
+    include footer.pug
+    script(src=clarity_asset('/js/clarity.js'), defer)

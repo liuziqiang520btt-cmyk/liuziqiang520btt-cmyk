@@ -1,0 +1,63 @@
+extends includes/layout.pug
+
+block content
+  -
+    var postStats = clarity_stats(page)
+    var tocHtml = (theme.post && theme.post.toc) ? toc(page.content, { list_number: false, max_depth: 3 }) : ''
+    var hasToc = tocHtml && tocHtml.indexOf('<a') > -1
+    var outdatedCfg = (theme.post && theme.post.outdated) || {}
+    var outdatedDays = outdatedCfg.enable ? (outdatedCfg.days || 180) : 0
+    var isOutdated = outdatedDays > 0 && page.updated && (Date.now() - new Date(page.updated).getTime()) > outdatedDays * 86400000
+    var cats = (page.categories && page.categories.length) ? page.categories.toArray() : []
+    var tags = (page.tags && page.tags.length) ? page.tags.toArray() : []
+
+  .progress#progress(aria-hidden='true')
+
+  header.post-head
+    if cats.length && (!theme.post || theme.post.show_category !== false)
+      a.eyebrow(href=url_for(cats[0].path))= cats[0].name
+    h1.post-title= page.title || __('post.no_title')
+    .post-meta
+      if theme.post && theme.post.author_avatar
+        img.avatar(src=url_for(theme.post.author_avatar), alt='', width='30', height='30', decoding='async')
+      else
+        span.avatar(aria-hidden='true')= (config.author || 'C').slice(0, 1)
+      span.meta-author= config.author
+      span.dot(aria-hidden='true')
+      time(datetime=date_xml(page.date))= date(page.date, 'YYYY-MM-DD')
+      if theme.post && theme.post.word_count
+        span.dot(aria-hidden='true')
+        span #{postStats.words} #{__('post.words')}
+      if theme.post && theme.post.reading_time
+        span.dot(aria-hidden='true')
+        span #{postStats.minutes} #{__('post.reading')}
+
+  .post-main
+    if isOutdated
+      aside.callout.callout-warn
+        span.ic(aria-hidden='true') !
+        div= __('post.outdated').replace('%s', date(page.updated, 'YYYY-MM-DD'))
+    article.article!= page.content
+    if tags.length
+      .post-tags
+        each t in tags
+          a.tag-pill(href=url_for(t.path))= '#' + t.name
+    if theme.post && theme.post.copyright
+      include includes/post/copyright.pug
+    if theme.post && theme.post.author_card
+      include includes/post/author.pug
+    if theme.post && theme.post.nav
+      include includes/post/nav.pug
+
+  //- 抽屉式目录
+  if hasToc
+    button.toc-fab#tocToggle(type='button', aria-expanded='false', aria-controls='tocDrawer')
+      svg(viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', aria-hidden='true')
+        path(d='M5 6h14M5 12h14M5 18h9')
+      span.toc-fab-text= __('post.toc')
+    .toc-backdrop#tocBackdrop(hidden)
+    aside.toc-drawer#tocDrawer(aria-hidden='true', aria-label=__('post.toc'))
+      .toc-drawer-head
+        span.cap= __('post.toc')
+        button.toc-close#tocClose(type='button', aria-label=__('page.close'))= '×'
+      nav.toc!= tocHtml

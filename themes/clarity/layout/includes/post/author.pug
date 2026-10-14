@@ -1,0 +1,9 @@
+.author-card
+  if theme.post && theme.post.author_avatar
+    img.avatar(src=url_for(theme.post.author_avatar), alt='', width='48', height='48', loading='lazy', decoding='async')
+  else
+    span.avatar(aria-hidden='true')= (config.author || config.title || 'C').slice(0, 1)
+  .author-info
+    .n= config.author || config.title
+    if config.description
+      .b= config.description

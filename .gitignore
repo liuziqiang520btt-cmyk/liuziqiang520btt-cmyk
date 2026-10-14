@@ -1,0 +1,16 @@
+.DS_Store
+Thumbs.db
+db.json
+.img-watch.log
+.git-hook.log
+
+# Typora「复制图片到 ./assets 文件夹」会在文章旁边建这些目录。
+# 提交前由 scripts/harvest-images.js 复制进 source/images/，
+# 这里忽略它们，避免同一张图在仓库里存两份。
+source/_posts/assets/
+source/_posts/*.assets/
+*.log
+node_modules/
+public/
+.deploy*/
+_multiconfig.yml

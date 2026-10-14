@@ -1,0 +1,17 @@
+- var olderPost = page.next
+- var newerPost = page.prev
+nav.post-nav(aria-label='文章导航')
+  if olderPost
+    a.pager.prev(href=url_for(olderPost.path))
+      span.k ← #{__('post.prev')}
+      span.v= olderPost.title || __('post.no_title')
+      span.d= date(olderPost.date, 'YYYY-MM-DD')
+  else
+    span.pager.prev.disabled(aria-hidden='true')
+  if newerPost
+    a.pager.next(href=url_for(newerPost.path))
+      span.k #{__('post.next')} →
+      span.v= newerPost.title || __('post.no_title')
+      span.d= date(newerPost.date, 'YYYY-MM-DD')
+  else
+    span.pager.next.disabled(aria-hidden='true')

@@ -1,0 +1,6 @@
+section.error-page
+  .wrap
+    p.error-code 404
+    h1.h1= __('page.not_found')
+    p.lede= __('page.not_found_desc')
+    a.btn.btn-primary(href=url_for('/'))= __('page.back_home')

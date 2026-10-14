@@ -1,0 +1,12 @@
+{
+  "name": "hexo-theme-clarity",
+  "version": "1.0.0",
+  "description": "Clarity - a Hexo theme in the lineage of Apple's design language",
+  "main": "package.json",
+  "keywords": ["hexo", "theme", "clarity", "apple", "minimal"],
+  "license": "MIT",
+  "peerDependencies": {
+    "hexo-renderer-pug": "^3.0.0",
+    "hexo-renderer-stylus": "^3.0.1"
+  }
+}

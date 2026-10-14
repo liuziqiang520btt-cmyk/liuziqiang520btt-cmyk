@@ -1,0 +1,15 @@
+if typeof paginator !== 'undefined' && paginator && paginator.total > 1
+  nav.pagination(aria-label='分页导航')
+    if paginator.prev
+      a.page-btn.prev(href=url_for(paginator.prev_link))
+        span.chev(aria-hidden='true') ←
+        span= __('page.prev_page')
+    else
+      span.page-btn.prev.disabled= __('page.prev_page')
+    span.page-count #{paginator.current} / #{paginator.total}
+    if paginator.next
+      a.page-btn.next(href=url_for(paginator.next_link))
+        span= __('page.next_page')
+        span.chev(aria-hidden='true') →
+    else
+      span.page-btn.next.disabled= __('page.next_page')

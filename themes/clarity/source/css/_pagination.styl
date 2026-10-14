@@ -1,0 +1,36 @@
+/* ============================================================
+ * Clarity · 分页
+ * ============================================================ */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 0 0;
+}
+
+.page-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 38px;
+  padding: 0 18px;
+  border-radius: var(--r-pill);
+  background: var(--fill);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.25s var(--ease), opacity 0.25s var(--ease);
+}
+.page-btn:hover { background: var(--fill-2); }
+.page-btn.disabled { opacity: 0.35; cursor: not-allowed; }
+.page-btn.disabled:hover { background: var(--fill); }
+
+.page-count {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-3);
+  padding: 0 6px;
+  letter-spacing: 0;
+}

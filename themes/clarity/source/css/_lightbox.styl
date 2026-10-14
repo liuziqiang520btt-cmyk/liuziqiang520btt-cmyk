@@ -1,0 +1,46 @@
+/* ============================================================
+ * Clarity · 图片灯箱
+ * ============================================================ */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: rgba(0, 0, 0, 0.82);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease);
+}
+.lightbox.open { opacity: 1; pointer-events: auto; }
+
+.lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-lg);
+  cursor: zoom-out;
+}
+
+.lightbox .lb-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.lightbox .lb-close:hover { background: rgba(255, 255, 255, 0.28); }

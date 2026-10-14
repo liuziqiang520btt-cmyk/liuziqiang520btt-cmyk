@@ -1,0 +1,20 @@
+mixin termsPage(kind)
+  -
+    var isCat = kind === 'categories'
+    var items = (isCat ? site.categories.toArray() : site.tags.toArray())
+    items.sort(function (a, b) { return b.length - a.length })
+    var key = isCat ? 'category' : 'tag'
+  section.hero.hero-sm
+    .wrap
+      h1.h1= __(key + '.title')
+      p.lede #{__(key + '.desc')} · #{items.length} 个
+  section.section
+    .wrap
+      if items.length
+        .term-grid
+          each item in items
+            a.term-card(href=url_for(item.path))
+              span.term-name= item.name
+              span.term-count #{item.length} 篇
+      else
+        p.empty= __('home.empty')

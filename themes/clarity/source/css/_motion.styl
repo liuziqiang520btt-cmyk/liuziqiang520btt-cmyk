@@ -1,0 +1,32 @@
+/* ============================================================
+ * Clarity · 动效
+ * 只有在 JS 成功运行（html[data-motion="on"]）时才隐藏元素，
+ * 保证 JS 失效时内容依然可见。
+ * ============================================================ */
+
+html[data-motion="on"] .reveal {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+html[data-motion="on"] .reveal.in {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  html[data-motion="on"] .reveal,
+  html[data-motion="on"] .reveal.in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

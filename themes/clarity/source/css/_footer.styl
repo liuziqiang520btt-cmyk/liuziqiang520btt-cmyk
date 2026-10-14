@@ -1,0 +1,35 @@
+/* ============================================================
+ * Clarity · 页脚
+ * ============================================================ */
+
+.footer {
+  border-top: 1px solid var(--separator);
+  padding: 32px 0 96px;
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
+.footer-links a { transition: color 0.25s var(--ease); }
+.footer-links a:hover { color: var(--text); }
+
+.footer-meta {
+  margin-left: auto;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+@media (max-width: 860px) {
+  .footer { padding-bottom: 72px; }
+  .footer-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .footer-meta { margin-left: 0; }
+}

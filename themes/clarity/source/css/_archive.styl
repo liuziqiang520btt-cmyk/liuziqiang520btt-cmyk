@@ -1,0 +1,114 @@
+/* ============================================================
+ * Clarity · 归档：分段控件 + 时间轴
+ * ============================================================ */
+
+.seg {
+  display: inline-flex;
+  background: var(--fill);
+  border-radius: 9px;
+  padding: 2px;
+  gap: 2px;
+  margin-top: 6px;
+}
+
+.seg button {
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-2);
+  padding: 5px 14px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.seg button.on {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+
+.tl { position: relative; padding-left: 26px; }
+
+.tl::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--separator-strong);
+}
+
+.tl-group.hidden { display: none; }
+
+.tl-year {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 40px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.tl-group:first-child .tl-year { margin-top: 0; }
+
+.tl-year .count {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-3);
+  background: var(--fill);
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+}
+
+.tl-row {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  align-items: baseline;
+  padding: 11px 0;
+}
+
+.tl-row::before {
+  content: "";
+  position: absolute;
+  left: -25px;
+  top: 19px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1.5px solid var(--separator-strong);
+  transition: background 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.tl-row:hover::before {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.15);
+}
+
+.tl-row .d {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-3);
+  width: 76px;
+  flex: none;
+  letter-spacing: 0;
+}
+
+.tl-row .t {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  transition: color 0.25s var(--ease);
+}
+.tl-row:hover .t { color: var(--accent); }
+
+.tl-row .c { margin-left: auto; font-size: 12px; color: var(--text-3); flex: none; }
+
+@media (max-width: 860px) {
+  .tl-row { gap: 12px; }
+  .tl-row .d { width: 58px; }
+  .tl-row .c { display: none; }
+}

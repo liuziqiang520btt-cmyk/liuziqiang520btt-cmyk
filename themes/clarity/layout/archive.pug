@@ -1,0 +1,33 @@
+extends includes/layout.pug
+
+block content
+  include includes/mixins.pug
+  -
+    var archivePosts = page.posts.toArray()
+    var groups = {}
+    archivePosts.forEach(function (p) {
+      var y = date(p.date, 'YYYY')
+      if (!groups[y]) groups[y] = []
+      groups[y].push(p)
+    })
+    var years = Object.keys(groups).sort().reverse()
+
+  section.hero.hero-sm
+    h1.h1= __('archive.title')
+    p.lede #{__('archive.desc')} · #{archivePosts.length} 篇
+    if years.length > 1
+      .seg#archiveSeg(role='tablist')
+        each y, i in years
+          button(type='button', role='tab', class=i === 0 ? 'on' : '', data-year=y)= y
+        button(type='button', role='tab', data-year='all')= __('home.all')
+
+  section.section
+    .tl#archiveTl
+      each y in years
+        .tl-group(data-year=y)
+          .tl-year
+            span #{y} 年
+            span.count #{groups[y].length} 篇
+          each post in groups[y]
+            +timelineRow(post)
+    include includes/pagination.pug

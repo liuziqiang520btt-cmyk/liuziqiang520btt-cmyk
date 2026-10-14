@@ -1,0 +1,14 @@
+extends includes/layout.pug
+
+block content
+  include includes/mixins.pug
+  - var termPosts = page.posts.toArray()
+  section.hero.hero-sm
+    p.eyebrow= __('nav.tags')
+    h1.h1= page.tag
+    p.lede #{termPosts.length} 篇
+  section.section
+    .list
+      each post in termPosts
+        +postItem(post)
+    include includes/pagination.pug

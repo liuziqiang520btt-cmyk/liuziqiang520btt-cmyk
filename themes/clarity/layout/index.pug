@@ -1,0 +1,59 @@
+extends includes/layout.pug
+
+block cover
+  if pageType === 'home' && theme.cover && theme.cover.enable
+    include includes/cover.pug
+
+block content
+  include includes/mixins.pug
+  -
+    var allPosts = page.posts.toArray()
+    var currentPage = page.current || 1
+    var featuredPost = (pageType === 'home' && currentPage === 1 && theme.home && theme.home.featured)
+      ? site.posts.sort('-date').first()
+      : null
+    var showCover = pageType === 'home' && theme.cover && theme.cover.enable
+    var heroTitle = config.title || ''
+    var heroHighlight = (theme.home && theme.home.highlight) || ''
+    var heroHtml = heroTitle
+    if (heroHighlight && heroTitle.slice(-heroHighlight.length) === heroHighlight) {
+      heroHtml = heroTitle.slice(0, heroTitle.length - heroHighlight.length) + '<span class="grad">' + heroHighlight + '</span>'
+    }
+    var eyebrowText = (theme.home && theme.home.slogan) || config.subtitle || ''
+    var ledeText = (theme.home && theme.home.intro) || config.description || ''
+
+  //- 没开首屏封面时，退回原来的文字 Hero
+  if pageType === 'home' && !showCover
+    section.hero
+      if eyebrowText
+        p.eyebrow= eyebrowText
+      h1.h1!= heroHtml
+      if ledeText
+        p.lede= ledeText
+      .cta
+        if featuredPost
+          a.btn.btn-primary(href=url_for(featuredPost.path))
+            span= __('home.read')
+            svg.chev(viewBox='0 0 24 24', width='14', height='14', fill='none', stroke='currentColor', stroke-width='2.6', stroke-linecap='round', aria-hidden='true')
+              path(d='M9 6l6 6-6 6')
+        a.btn.btn-ghost(href=url_for('/archives/'))= __('home.browse')
+
+  if featuredPost
+    section.section
+      .section-head
+        h2.h2= __('home.featured')
+        a.more(href=url_for('/archives/')) #{__('home.all')} ›
+      +featuredCard(featuredPost)
+
+  section.section
+    .section-head
+      h2.h2= __('home.latest')
+    .list
+      - var shown = 0
+      each post in allPosts
+        if !featuredPost || post._id !== featuredPost._id
+          - shown++
+          +postItem(post)
+      if shown === 0
+        p.empty= __('home.empty')
+    include includes/pagination.pug

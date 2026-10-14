@@ -1,0 +1,36 @@
+-
+  var cv = theme.cover || {}
+  var cvTitle = cv.title || config.title || ''
+  var cvHighlight = (theme.home && theme.home.highlight) || ''
+  var cvHtml = cvTitle
+  if (cvHighlight && cvTitle.slice(-cvHighlight.length) === cvHighlight) {
+    cvHtml = cvTitle.slice(0, cvTitle.length - cvHighlight.length) + '<span class="grad">' + cvHighlight + '</span>'
+  }
+  var cvSub = cv.subtitle || (theme.home && theme.home.slogan) || config.subtitle || ''
+  var cvLede = (theme.home && theme.home.intro) || config.description || ''
+  var cvNewest = site.posts.sort('-date').first()
+  var cvOverlay = (typeof cv.overlay === 'number') ? cv.overlay : 0.42
+  var cvPos = (typeof cv.position === 'number') ? cv.position : 0.45
+  var cvPosX = (typeof cv.position_x === 'number') ? cv.position_x : 50
+  var cvImage = cv.image || '/images/cover.jpg'
+
+section.cover#cover(style='--cover-overlay:' + cvOverlay)
+  .cover-bg(style='background-image:url(' + url_for(cvImage) + ');background-position:' + cvPosX + '% ' + Math.round(cvPos * 100) + '%')
+  .cover-inner
+    if cv.show_eyebrow !== false && cvSub
+      p.cover-eyebrow= cvSub
+    h1.cover-title(class=(cv.title_font === 'brush' ? 'cover-title--brush' : ''))!= cvHtml
+    if cv.show_lede !== false && cvLede
+      p.cover-lede= cvLede
+    .cover-cta
+      if cvNewest
+        a.btn.btn-glass(href=url_for(cvNewest.path))
+          span= __('home.read')
+          svg.chev(viewBox='0 0 24 24', width='14', height='14', fill='none', stroke='currentColor', stroke-width='2.6', stroke-linecap='round', aria-hidden='true')
+            path(d='M9 6l6 6-6 6')
+      a.btn.btn-glass(href=url_for('/archives/'))= __('home.browse')
+  if cv.hint !== false
+    button.cover-scroll#coverScroll(type='button', aria-label=__('cover.scroll'))
+      span= __('cover.scroll')
+      svg(viewBox='0 0 24 24', width='18', height='18', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', stroke-linejoin='round', aria-hidden='true')
+        path(d='M6 9l6 6 6-6')

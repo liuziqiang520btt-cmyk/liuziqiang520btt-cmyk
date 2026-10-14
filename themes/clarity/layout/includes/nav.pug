@@ -1,0 +1,33 @@
+- var curPath = url_for(page.path || '/')
+header.nav#nav
+  .nav-inner
+    if !theme.brand || theme.brand.show !== false
+      a.brand(href=url_for('/'))
+        if theme.brand.mark === 'image' && theme.brand.mark_image
+          img.brand-img(src=url_for(theme.brand.mark_image), alt='')
+        else
+          span.mark(aria-hidden='true')
+        span.brand-name= brandName
+    nav.nav-menu(aria-label=__('nav.menu'))
+      each murl, name in theme.menu
+        - var navTarget = url_for(murl)
+        - var navOn = clarity_is_active(curPath, navTarget)
+        a(href=navTarget, class=navOn ? 'on' : '', aria-current=navOn ? 'page' : false)= name
+    .nav-tools
+      if theme.appearance && theme.appearance.switch
+        button.icon-btn#themeToggle(type='button', title='切换外观', aria-label='切换外观')
+          svg.moon(viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', aria-hidden='true')
+            path(d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z')
+          svg.sun(viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', aria-hidden='true')
+            circle(cx='12', cy='12', r='4.2')
+            path(d='M12 2v2M12 20v2M4.2 4.2l1.5 1.5M18.3 18.3l1.5 1.5M2 12h2M20 12h2M4.2 19.8l1.5-1.5M18.3 5.7l1.5-1.5')
+      button.icon-btn.nav-burger#menuToggle(type='button', aria-label=__('nav.menu'), aria-expanded='false', aria-controls='navMobile')
+        svg(viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', aria-hidden='true')
+          path(d='M4 7h16M4 12h16M4 17h16')
+//- 故意放在 header 外面：父级若有 backdrop-filter 会形成 backdrop root，
+//- 把子元素的模糊吃掉。这里让菜单独立成一个 fixed 浮层。
+nav.nav-mobile#navMobile(aria-label=__('nav.menu'))
+  each murl2, name2 in theme.menu
+    - var mTarget = url_for(murl2)
+    - var mOn = clarity_is_active(curPath, mTarget)
+    a(href=mTarget, class=mOn ? 'on' : '', aria-current=mOn ? 'page' : false)= name2

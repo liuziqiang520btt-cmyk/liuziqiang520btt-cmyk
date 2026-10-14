@@ -1,0 +1,50 @@
+/* ============================================================
+ * Clarity · 分类 / 标签 / 独立页面 / 404
+ * ============================================================ */
+
+.term-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.term-card {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px;
+  border-radius: var(--r-lg);
+  transition: transform 0.3s var(--ease-out), background 0.25s var(--ease), box-shadow 0.3s var(--ease);
+}
+.term-card:hover {
+  transform: translateY(-2px);
+  box-shadow: inset 0 1px 0 var(--glass-hi), var(--shadow-md);
+}
+
+.term-name { font-size: 16px; font-weight: 600; letter-spacing: -0.015em; }
+.term-card:hover .term-name { color: var(--accent); }
+.term-count { font-size: 12px; color: var(--text-3); flex: none; }
+
+/* ---------- 独立页面 ---------- */
+
+.page-body {
+  max-width: var(--readw);
+  font-size: 17px;
+  line-height: 1.72;
+  letter-spacing: -0.003em;
+}
+
+/* ---------- 404 ---------- */
+
+.error-page { padding: 120px 0 140px; text-align: center; }
+.error-code {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+  margin: 0 0 18px;
+}
+.error-page .lede { font-size: 18px; }
+.error-page .btn { margin-top: 10px; }

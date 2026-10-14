@@ -1,0 +1,49 @@
+/* ============================================================
+ * Clarity · 液态玻璃材质
+ *
+ * 一处定义，所有卡片复用。玻璃能"看出来"靠四件事，缺一不可：
+ *   1. 半透明底 + 背景模糊 —— 需要有背景颜色可透
+ *   2. 上边缘高光 (--glass-hi) —— 光打在玻璃棱上的那道亮线
+ *   3. 下边缘内反光 (--glass-lo) —— 让玻璃显得有厚度，不是一张纸
+ *   4. 页面环境光 (--ambient-*) —— 没有它，纯色底上模糊是白费的
+ * ============================================================ */
+
+.profile,
+.featured,
+.item,
+.term-card,
+.author-card,
+.post-nav .pager,
+.copyright,
+.nav-mobile {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-edge);
+  box-shadow:
+    inset 0 1px 0 var(--glass-hi),
+    inset 0 -1px 0 var(--glass-lo),
+    var(--glass-shadow);
+}
+
+/* 不支持背景模糊时退回不透明底，避免半透明底配深色字看不清 */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .profile,
+  .featured,
+  .item,
+  .term-card,
+  .author-card,
+  .post-nav .pager,
+  .copyright,
+  .nav-mobile {
+    background: var(--surface);
+  }
+}
+
+/* 悬停：玻璃更亮一点 */
+.item:hover,
+.term-card:hover,
+.author-card:hover,
+.post-nav a.pager:hover {
+  background: var(--glass-bg-hover);
+}

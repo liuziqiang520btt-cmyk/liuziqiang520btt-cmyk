@@ -1,0 +1,172 @@
+/* ============================================================
+ * Clarity · 首屏封面
+ * 一整屏图片封面，向下滚动才进入正文
+ * ============================================================ */
+
+.cover {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 140px 24px 110px;
+  text-align: center;
+  color: #fff;
+  background-color: #1d1d1f;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* 视差层：比封面本身高 32%，向上多留 16% 作为位移余量 */
+.cover-bg {
+  position: absolute;
+  top: -16%;
+  left: 0;
+  right: 0;
+  height: 132%;
+  z-index: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  will-change: transform;
+  pointer-events: none;
+}
+
+@supports (min-height: 100svh) {
+  .cover { min-height: 100svh; }
+}
+
+/* 均匀压暗，强度由 --cover-overlay 控制 */
+.cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #000;
+  opacity: var(--cover-overlay, 0.42);
+}
+
+/* 上下渐深，保证标题与底部提示都能读清 */
+.cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.52) 0%,
+    rgba(0, 0, 0, 0) 38%,
+    rgba(0, 0, 0, 0) 60%,
+    rgba(0, 0, 0, 0.58) 100%
+  );
+}
+
+.cover-inner {
+  position: relative;
+  z-index: 2;
+  /* 毛笔标题要一行放下 12 个字，inner 得够宽；副标题/描述段有自己的 max-width */
+  max-width: 1140px;
+}
+
+.cover-eyebrow {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 18px;
+  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.4);
+}
+
+.cover-title {
+  font-size: 68px;
+  line-height: 1.06;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  color: #fff;
+  margin: 0 0 20px;
+  text-shadow: 0 2px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* 毛笔标题：笔画细，字距要放松，不能再套无衬线那套负字距。
+ * 强制一行：字号跟着视口宽度走（12 个字约 12.24em 宽），上限 84px。 */
+.cover-title--brush {
+  font-family: 'Clarity Brush', var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(20px, 6.9vw, 84px);
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  margin: 0 0 44px;
+  white-space: nowrap;
+  text-shadow: 0 3px 30px rgba(0, 0, 0, 0.45);
+}
+
+.cover-title .grad {
+  background: linear-gradient(90deg, #ffd60a, #ff9f0a 45%, #ff375f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cover-lede {
+  font-size: 20px;
+  line-height: 1.5;
+  letter-spacing: -0.012em;
+  color: rgba(255, 255, 255, 0.86);
+  max-width: 620px;
+  margin: 0 auto 36px;
+  text-shadow: 0 1px 20px rgba(0, 0, 0, 0.4);
+}
+
+.cover-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+.btn-light { background: #fff; color: #1d1d1f; }
+.btn-light:hover { background: rgba(255, 255, 255, 0.86); }
+
+.btn-glass {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+.btn-glass:hover { background: rgba(255, 255, 255, 0.3); }
+
+/* 底部提示 */
+.cover-scroll {
+  position: absolute;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 12px;
+  font-family: inherit;
+  letter-spacing: 0.06em;
+  transition: opacity 0.4s var(--ease), color 0.25s var(--ease);
+}
+.cover-scroll:hover { color: #fff; }
+.cover-scroll svg { animation: cover-bounce 2.4s var(--ease) infinite; }
+
+@keyframes cover-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.9; }
+  50% { transform: translateY(5px); opacity: 0.45; }
+}
+
+html.is-past-cover .cover-scroll { opacity: 0; pointer-events: none; }
+
+@media (max-width: 860px) {
+  .cover { padding: 110px 16px 96px; }
+  .cover-title:not(.cover-title--brush) { font-size: 40px; }
+  .cover-lede { font-size: 17px; margin-bottom: 28px; }
+  .cover-eyebrow { margin-bottom: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cover-scroll svg { animation: none; }
+}

@@ -1,0 +1,176 @@
+/* ============================================================
+ * Clarity · 首页：精选大卡 + 文章列表
+ * ============================================================ */
+
+.featured {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  overflow: hidden;
+  border-radius: var(--r-xl);
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out), background 0.3s var(--ease);
+}
+.featured:hover {
+  transform: translateY(-3px);
+  background: var(--glass-bg-hover);
+  box-shadow: inset 0 1px 0 var(--glass-hi), var(--shadow-lg);
+}
+
+.featured .thumb {
+  min-height: 288px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+.featured .thumb .glyph {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 66px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.94);
+  letter-spacing: -0.05em;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.22);
+  padding: 0 16px;
+  text-align: center;
+  word-break: break-word;
+}
+
+.featured .body {
+  padding: 38px 38px 34px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.tagpill {
+  align-self: flex-start;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 5px 11px;
+  border-radius: var(--r-pill);
+  margin-bottom: 16px;
+}
+
+.featured h3 {
+  font-size: 27px;
+  line-height: 1.22;
+  font-weight: 600;
+  letter-spacing: -0.024em;
+  margin: 0 0 12px;
+}
+
+.featured p {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-2);
+  margin: 0 0 20px;
+}
+
+.meta {
+  font-size: 13px;
+  color: var(--text-3);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+/* ---------- 文章列表 ---------- */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 一篇文章 = 精选大卡的缩小版：
+   左块是彩色封面（放日期），右块不加底色、露出父层那块玻璃。
+   尺寸仍是原来的列表行高。 */
+.item {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  border-radius: var(--r-lg);
+  overflow: hidden;            /* 两半共享外圆角，和精选大卡一样 */
+  transition: transform 0.32s var(--ease-out), box-shadow 0.32s var(--ease);
+}
+.item:hover { transform: translateY(-2px); }
+
+/* 左块：彩色渐变由 clarity_gradient(post) 内联提供，这里只负责排版 */
+.item-date {
+  display: grid;
+  place-items: center;
+  padding: 20px 8px;
+  background-size: cover;
+  background-position: center;
+}
+.item-date time {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: #fff;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+}
+
+/* 右块：不加任何底色，父层的玻璃直接透上来 */
+.item-body {
+  position: relative;
+  min-width: 0;
+  padding: 20px 54px 20px 22px;
+}
+
+.item h4 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.018em;
+  margin: 0 0 5px;
+}
+
+.item .sub {
+  font-size: 14px;
+  color: var(--text-2);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 640px;
+}
+
+.item .tagline {
+  font-size: 12px;
+  color: var(--text-3);
+  margin-top: 7px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.item-arrow {
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  margin-top: -10px;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+  color: var(--accent);
+  font-size: 20px;
+  line-height: 1;
+}
+.item:hover .item-arrow { opacity: 1; transform: translateX(0); }
+
+@media (max-width: 860px) {
+  .featured { grid-template-columns: 1fr; }
+  .featured .thumb { min-height: 180px; }
+  .featured .body { padding: 26px 24px; }
+  .featured h3 { font-size: 21px; }
+  .item { grid-template-columns: 1fr; gap: 8px; padding: 18px 4px; }
+  .item .sub { white-space: normal; max-width: none; }
+  .item-arrow { display: none; }
+}

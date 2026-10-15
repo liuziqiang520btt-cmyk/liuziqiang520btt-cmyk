@@ -1,0 +1,39 @@
+//- 首页列表项
+mixin postItem(post)
+  a.item(href=url_for(post.path))
+    .item-date(style=clarity_gradient(post))
+      time(datetime=date_xml(post.date))= date(post.date, 'MM-DD')
+    .item-body
+      h4= post.title || __('post.no_title')
+      p.sub= clarity_excerpt(post, (theme.home && theme.home.excerpt_length) || 96)
+      if post.tags && post.tags.length
+        .tagline
+          each t in post.tags.toArray().slice(0, (theme.home && theme.home.max_tags) || 3)
+            span= '#' + t.name
+      span.item-arrow(aria-hidden='true') ›
+
+//- 精选大卡
+mixin featuredCard(post)
+  a.featured(href=url_for(post.path))
+    .thumb(style=post.cover ? 'background-image:url(' + url_for(post.cover) + ')' : clarity_gradient(post))
+      if !post.cover
+        span.glyph= clarity_glyph(post)
+    .body
+      if post.categories && post.categories.length
+        span.tagpill= post.categories.toArray()[0].name
+      h3= post.title || __('post.no_title')
+      p= clarity_excerpt(post, ((theme.home && theme.home.excerpt_length) || 96) + 44)
+      .meta
+        time(datetime=date_xml(post.date))= date(post.date, 'YYYY-MM-DD')
+        span.dot
+        span #{clarity_reading_time(post)} #{__('post.reading')}
+
+//- 文章列表行（归档时间轴用）
+mixin timelineRow(post)
+  - var cat = (post.categories && post.categories.length) ? post.categories.toArray()[0].name : ''
+  a.tl-row(href=url_for(post.path))
+    span.d
+      time(datetime=date_xml(post.date))= date(post.date, 'MM-DD')
+    span.t= post.title || __('post.no_title')
+    if cat
+      span.c= cat

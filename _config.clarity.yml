@@ -1,0 +1,84 @@
+# ============================================================
+#  Clarity 主题 —— 站点级配置
+#  这里的内容会覆盖 themes/clarity/_config.yml 里的同名默认值，
+#  所以升级主题时不会被覆盖掉你的个性化设置。
+# ============================================================
+
+brand:
+  # 左上角的品牌区（图形标记 + 「刘自强的技术博客」）已按需求关闭
+  show: false
+
+menu:
+  主页: /
+  文档: /archives/
+  分类: /categories/
+  标签: /tags/
+  关于: /about/
+
+accent: '#0071e3'
+accent_dark: '#0a84ff'
+
+home:
+  # 封面标题改用毛笔字后不再做渐变高亮；想恢复填 '技术博客' 之类
+  highlight: ''
+  slogan: 喵酱与狗蛋儿
+  intro: '想的明白，想不明白的，都在这里！'
+  featured: true
+  excerpt_length: 96
+
+post:
+  toc: true
+  word_count: true
+  reading_time: true
+  author_card: true
+  # 不要文章顶部那个分类小标签
+  show_category: false
+  # 作者头像（文章头部 + 文末作者卡）
+  author_avatar: /images/author.jpg
+  nav: true
+  copyright: false
+
+code:
+  copy: true
+  lang: true
+
+lightbox: true
+
+footer:
+  since: 2025
+  statistics: true
+  powered: true
+
+appearance:
+  default: auto
+  switch: true
+
+motion: true
+smooth_scroll: true
+
+cover:
+  enable: true
+  image: /images/cover.jpg
+  # 封面主标题（一行展示，字号自动跟着屏宽缩放）
+  title: '已识乾坤大，犹怜草木青'
+  # 用自带的毛笔字体（钟齐志莽行书）渲染标题
+  title_font: brush
+  # 标题上方的小字与下方的描述段都不要
+  show_eyebrow: false
+  show_lede: false
+  subtitle: 想的明白，想不明白的，都在这里！
+  overlay: 0.42
+  position: 0.45
+  # 手机竖屏会横向裁掉一大半。62 = 两个人 + 柯基都在画面里
+  position_x: 62
+  hint: true
+
+profile:
+  enable: true
+  avatar: /images/avatar.jpg
+  name: 喵酱与狗蛋儿
+  tagline: 吃 · 喝 · 玩 · 乐
+  bio: 清溪奔快，不管青山碍。
+  # links 已按需求移除（个人栏不再放链接，改由顶部导航承担）
+  stats: true
+  sticky: true

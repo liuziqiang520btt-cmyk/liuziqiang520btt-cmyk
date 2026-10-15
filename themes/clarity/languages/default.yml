@@ -1,0 +1,72 @@
+nav:
+  home: Home
+  archives: Archives
+  categories: Categories
+  tags: Tags
+  about: About
+  menu: Menu
+
+home:
+  featured: Featured
+  latest: Latest
+  all: All posts
+  read: Start reading
+  browse: Browse archives
+  empty: No posts yet
+
+post:
+  created: Posted on
+  updated: Updated on
+  words: words
+  reading: min read
+  toc: On this page
+  prev: Previous
+  next: Next
+  author: Author
+  copyright: Copyright
+  outdated: This post was last updated on %s and may be out of date.
+  no_title: Untitled
+
+archive:
+  title: Archives
+  desc: All posts in chronological order
+  total: '%d posts'
+
+category:
+  title: Categories
+  desc: Browse posts by topic
+  total: '%d posts'
+
+tag:
+  title: Tags
+  desc: Browse posts by keyword
+  total: '%d posts'
+
+page:
+  home: Home
+  not_found: Page not found
+  not_found_desc: The page you are looking for has been moved or deleted.
+  back_home: Back home
+  newer: Newer
+  older: Older
+  next_page: Next
+  prev_page: Prev
+  copied: Copied
+  copy: Copy
+  back_to_top: Back to top
+  close: Close
+
+footer:
+  powered: Powered by %s and %s
+
+cover:
+  scroll: Scroll
+  enter: Enter
+
+profile:
+  role: About
+  posts: posts
+  categories: categories
+  tags: tags
+
+

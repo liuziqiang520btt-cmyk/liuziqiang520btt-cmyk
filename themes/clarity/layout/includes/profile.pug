@@ -1,0 +1,25 @@
+-
+  var pf = theme.profile || {}
+  var pfName = pf.name || config.author || config.title || ''
+
+aside.profile(aria-label=__('profile.role'))
+  .profile-head
+    if pf.avatar
+      img.profile-avatar(src=url_for(pf.avatar), alt=pfName, width='112', height='112', loading='lazy', decoding='async')
+    .profile-id
+      p.profile-name= pfName
+      if pf.tagline
+        p.profile-tagline= pf.tagline
+  if pf.bio
+    p.profile-bio= pf.bio
+  if pf.stats !== false
+    .profile-stats
+      .stat
+        span.stat-n= site.posts.length
+        span.stat-l= __('profile.posts')
+      .stat
+        span.stat-n= site.categories.length
+        span.stat-l= __('profile.categories')
+      .stat
+        span.stat-n= site.tags.length
+        span.stat-l= __('profile.tags')

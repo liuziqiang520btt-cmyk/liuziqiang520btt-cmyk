@@ -1,0 +1,72 @@
+nav:
+  home: 主页
+  archives: 文档
+  categories: 分类
+  tags: 标签
+  about: 关于
+  menu: 菜单
+
+home:
+  featured: 精选
+  latest: 最新文章
+  all: 全部文章
+  read: 开始阅读
+  browse: 浏览文档
+  empty: 暂无文章
+
+post:
+  created: 发表于
+  updated: 更新于
+  words: 字
+  reading: 分钟阅读
+  toc: 目录
+  prev: 上一篇
+  next: 下一篇
+  author: 作者
+  copyright: 版权声明
+  outdated: 本文最后更新于 %s，部分内容可能已经过时。
+  no_title: 无标题
+
+archive:
+  title: 文档
+  desc: 按时间顺序浏览全部文章
+  total: 共 %d 篇
+
+category:
+  title: 分类
+  desc: 按主题浏览全部文章
+  total: 共 %d 篇
+
+tag:
+  title: 标签
+  desc: 按关键词浏览全部文章
+  total: 共 %d 篇
+
+page:
+  home: 首页
+  not_found: 页面不存在
+  not_found_desc: 你访问的页面可能已被移动或删除。
+  back_home: 返回首页
+  newer: 更新的文章
+  older: 更早的文章
+  next_page: 下一页
+  prev_page: 上一页
+  copied: 已复制
+  copy: 复制
+  back_to_top: 回到顶部
+  close: 关闭
+
+footer:
+  powered: 由 %s 与 %s 驱动
+
+cover:
+  scroll: 向下滚动
+  enter: 进入博客
+
+profile:
+  role: 个人简介
+  posts: 文章
+  categories: 分类
+  tags: 标签
+
+

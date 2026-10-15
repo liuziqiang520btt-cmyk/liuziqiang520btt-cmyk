@@ -1,0 +1,5 @@
+# 自动识别文本文件，仓库内外统一用 LF 换行。
+# 末尾的 eol=lf 是关键：只写 text=auto 的话，Windows 上检出时
+# 仍会按 core.eol 转成 CRLF，GitHub Desktop 就会一直提示
+# "LF line endings, but Git is configured to convert them to CRLF"。
+* text=auto eol=lf

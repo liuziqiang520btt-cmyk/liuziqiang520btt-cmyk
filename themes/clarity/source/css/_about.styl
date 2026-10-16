@@ -1,0 +1,472 @@
+/* ============================================================
+ * Clarity · 关于页
+ * 结构：封面横幅 + 压边的头像卡 + 数字条 + 正文 + 研究动态时间线
+ * ============================================================ */
+
+.about { max-width: 920px; }
+
+/* 封面横幅 */
+.about-hero {
+  position: relative;
+  height: 220px;
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  overflow: hidden;
+}
+.about-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 45%;
+}
+.about-hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--bg) 2%, rgba(0, 0, 0, 0.16) 55%, rgba(0, 0, 0, 0.28));
+}
+
+/* 压在横幅下沿的卡片 */
+.about-card {
+  position: relative;
+  z-index: 2;
+  margin-top: -76px;
+  padding: 0 34px 34px;
+  border-radius: var(--r-xl);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-edge);
+  box-shadow:
+    inset 0 1px 0 var(--glass-hi),
+    var(--glass-shadow);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .about-card { background: var(--surface); }
+}
+
+.about-head {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  padding-top: 26px;
+}
+
+.about-avatar {
+  width: 116px;
+  height: 116px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: none;
+  margin-top: -66px;
+  box-shadow:
+    0 0 0 4px var(--bg),
+    0 0 0 5px var(--glass-edge),
+    0 10px 26px rgba(0, 0, 0, 0.16);
+}
+
+.about-id { min-width: 0; padding-bottom: 4px; }
+
+.about-name {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.about-tagline {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 8px 0 0;
+}
+
+/* 分栏切换：iOS 那种分段控件 */
+.about-tabs {
+  display: flex;
+  gap: 2px;
+  margin-left: auto;
+  align-self: center;
+  flex: none;
+  padding: 3px;
+  border-radius: var(--r-pill);
+  background: var(--inset-bg);
+  box-shadow: inset 0 0 0 1px var(--inset-ring);
+}
+
+.about-tab {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--text-2);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 9px 20px;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    color 0.24s var(--ease),
+    background 0.24s var(--ease),
+    box-shadow 0.24s var(--ease);
+}
+.about-tab:hover { color: var(--text); }
+.about-tab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.about-tab.is-active {
+  color: var(--text);
+  background: var(--inset-bg-active);
+  box-shadow: inset 0 0 0 1px var(--inset-ring), var(--inset-shadow);
+}
+
+/* 面板：同一时刻只显示一个（没有 JS 时由 noscript 里的样式兜底） */
+.about-pane { display: none; }
+.about-pane.is-active {
+  display: block;
+  animation: about-pane-in 0.34s var(--ease-out);
+}
+
+@keyframes about-pane-in {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* 数字条
+   它嵌在 .about-card 里面，而父级已经有 backdrop-filter —— 父级会建立
+   backdrop root，子元素再套 backdrop-filter 是白费的（模糊不到任何东西）。
+   所以这里用「玻璃的视觉配方」而不依赖模糊：
+     底色 + 上缘高光渐变 + 上边缘亮线 + 下边缘内反光 + 发丝线 */
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin: 26px 0 0;
+  padding: 14px 8px;
+  border-radius: var(--r-lg);
+  background: var(--inset-bg);
+  box-shadow: inset 0 0 0 1px var(--inset-ring);
+}
+.about-stats .stat { padding: 6px 2px; border-radius: var(--r-md); }
+.about-stats .stat + .stat { position: relative; }
+.about-stats .stat + .stat::before {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    var(--separator) 22%,
+    var(--separator) 78%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+/* 正文 */
+.about-content {
+  margin: 30px 0 0;
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--text);
+  text-wrap: pretty;
+}
+.about-content h2 {
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 34px 0 12px;
+}
+.about-content h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 24px 0 8px;
+}
+.about-content p { margin: 0 0 14px; color: var(--text-2); }
+.about-content strong { color: var(--text); font-weight: 600; }
+.about-content ul { margin: 0 0 16px; padding-left: 20px; }
+.about-content li { margin: 6px 0; color: var(--text-2); }
+.about-content li::marker { color: var(--text-3); }
+.about-content code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--code-bg);
+}
+
+/* 研究动态时间线 */
+.about-section { margin: 36px 0 0; }
+.about-section > .h2 { margin-bottom: 22px; }
+.about-pane[data-pane='research'] > .about-section:first-child { margin-top: 26px; }
+
+.timeline {
+  position: relative;
+  padding-left: 26px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: var(--separator);
+}
+
+.tl-item { position: relative; }
+.tl-item + .tl-item { margin-top: 18px; }
+
+.tl-dot {
+  position: absolute;
+  left: -26px;
+  top: 22px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent-soft);
+  transition: transform 0.3s var(--ease-out);
+}
+.tl-item:hover .tl-dot { transform: scale(1.25); }
+
+/* 卡片沿用主页「最新文章」的两栏结构：左边彩色日期块 + 右边内容块，
+   外面再套一层时间轴的圆点和竖线 */
+/* 同样在 .about-card 内部，所以不再套第二层模糊 */
+.tl-card {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--inset-bg);
+  box-shadow: inset 0 0 0 1px var(--inset-ring);
+  transition: transform 0.32s var(--ease-out), box-shadow 0.32s var(--ease);
+}
+.tl-item:hover .tl-card {
+  box-shadow: inset 0 0 0 1px var(--inset-ring), var(--shadow-md);
+}
+.tl-item:hover .tl-card { transform: translateY(-2px); }
+
+.tl-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 16px 6px;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+.tl-date time {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.30);
+}
+.tl-year {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.30);
+}
+
+.tl-body { padding: 16px 20px; min-width: 0; }
+
+.tl-title {
+  display: inline-block;
+  font-size: 16.5px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  transition: color 0.22s var(--ease);
+}
+.tl-title:hover { color: var(--accent); }
+
+.tl-text {
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--text-2);
+  margin: 8px 0 0;
+  text-wrap: pretty;
+}
+
+/* 白框：先「主题」（分类），再标签 */
+.tl-meta {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-top: 13px;
+}
+
+.tl-cat {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  background: var(--accent-soft);
+  transition: background 0.22s var(--ease);
+}
+.tl-cat:hover { background: var(--accent-line); }
+
+.tl-tag { font-size: 12px; color: var(--text-3); transition: color 0.22s var(--ease); }
+.tl-tag:hover { color: var(--accent); }
+
+/* ============================================================
+ * 活动热力图（按 git 提交频率）
+ * ============================================================ */
+
+/* 整个热力图是一块面板。
+   注意：它在 .about-card 内部，而父级已经有 backdrop-filter —— 父级会建立
+   backdrop root，子元素的 backdrop-filter 会被吃掉（看不出模糊）。
+   所以这里用实心淡色 + 内高光来保持「玻璃面板」的观感，而不是套第二层模糊。 */
+.heatmap {
+  margin-top: 4px;
+  padding: 20px 22px 18px;
+  border-radius: var(--r-lg);
+  background: var(--inset-bg);
+  box-shadow: inset 0 0 0 1px var(--inset-ring);
+}
+
+.heatmap-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+/* 心跳线 */
+.hm-pulse { width: 30px; height: 14px; flex: none; color: var(--accent); }
+
+.hm-title { font-size: 14.5px; color: var(--text-2); }
+.hm-title strong {
+  color: var(--text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.hm-sub { font-size: 12.5px; color: var(--text-3); margin-left: auto; }
+.hm-sub strong { color: var(--text-2); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* 不做内部滚动：格子随宽度伸缩，始终完整可见 */
+.heatmap-scroll { overflow: visible; }
+
+/* 26 列全部平分面板宽度：
+   —— 不设 max-width，格子会一直撑到面板两侧（之前卡在 26px，左右各空一截）
+   —— 不设 min-width，也就没有内部滚动条，任何窗口宽度都完整显示 */
+.hm-months {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.hm-months span {
+  flex: 1 1 0;
+  min-width: 0;
+  font-size: 10px;
+  line-height: 1;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+.hm-body { display: flex; gap: 4px; }
+
+.hm-week {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.hm-day {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 4px;
+  flex: none;
+  background: var(--fill);
+  box-shadow: inset 0 1px 0 var(--glass-hi);
+  transition: transform 0.16s var(--ease-out), box-shadow 0.16s var(--ease);
+}
+.hm-day:hover {
+  transform: scale(1.4);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+.hm-day.lv0 { background: var(--fill); }
+.hm-day.lv1 { background: rgba(10, 132, 255, 0.26); }
+.hm-day.lv2 { background: rgba(10, 132, 255, 0.48); }
+.hm-day.lv3 { background: rgba(10, 132, 255, 0.72); }
+.hm-day.lv4 {
+  background: #0a84ff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 0 10px rgba(10, 132, 255, 0.45);
+}
+.hm-day.is-future { opacity: 0.3; box-shadow: none; }
+
+.heatmap-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+.hm-scale { display: flex; align-items: center; gap: 4px; }
+.hm-scale-t { font-size: 11px; color: var(--text-3); }
+.hm-scale-t:first-child { margin-right: 3px; }
+.hm-scale-t:last-child { margin-left: 3px; }
+
+/* 图例里的小格子必须固定尺寸 —— 上面 .hm-day 是 width:100% + aspect-ratio，
+   不加这条它们会各自撑满容器，把图例挤到面板外面去 */
+.hm-scale .hm-day {
+  width: 14px;
+  height: 14px;
+  aspect-ratio: auto;
+  flex: none;
+}
+.hm-scale .hm-day:hover { transform: none; box-shadow: inset 0 1px 0 var(--glass-hi); }
+.hm-scale .hm-day.lv4:hover { box-shadow: none; }
+
+@media (max-width: 860px) {
+  .about-hero { height: 170px; }
+  .about-card { margin-top: -58px; padding: 0 20px 26px; }
+  .about-head { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .about-avatar { width: 92px; height: 92px; margin-top: -52px; }
+  .about-name { font-size: 27px; }
+  .about-stats { padding: 8px 4px; }
+  .about-stats .stat + .stat::before { display: none; }
+  .about-content { font-size: 15.5px; }
+  .about-tabs { align-self: flex-start; margin-left: 0; }
+  .about-tab { padding: 8px 16px; font-size: 13.5px; }
+  .tl-card { grid-template-columns: 76px 1fr; }
+  .tl-body { padding: 14px 16px; }
+  .heatmap { padding: 16px 16px 14px; }
+  .heatmap-head { gap: 8px; }
+  .hm-sub { margin-left: 0; }
+}
+
+/* 窄屏：月份标签是 nowrap 文字，26 列挤在一起时会把容器撑出几像素的横向溢出，
+   而格子本身也会被压到看不清 —— 索性收掉标签、压缩间距，让它完整显示 */
+@media (max-width: 620px) {
+  .hm-months { display: none; }
+  .hm-body { gap: 3px; }
+  .hm-week { gap: 3px; }
+}
+@media (max-width: 440px) {
+  .hm-body { gap: 2px; }
+  .hm-week { gap: 2px; }
+}
+
+@media print {
+  .about-hero-bg { display: none; }
+  .about-card, .tl-card { background: none; box-shadow: none; border: none; }
+}

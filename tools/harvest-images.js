@@ -121,10 +121,16 @@ let strayed = 0;
     if (!IMG_FILE.test(e.name)) continue;
     const to = path.join(DEST, e.name);
     if (fs.existsSync(to)) {
-      // source/images/ 里已有同名文件，原件就是冗余的 —— 删掉省磁盘
-      if (!DRY) { try { fs.unlinkSync(p); } catch (x) {} }
+      // source/images/ 里已有同名文件，原件就是冗余的 —— 删掉省磁盘。
+      // 但必须同样改写引用：文件被删了，Markdown 里那句 assets/xxx.jpg 就悬空了
+      // （博客页面看不出来，因为 scripts/media.js 在渲染期会把 src 改成 /images/xxx；
+      //   而 Typora / 编辑器按磁盘路径找，就会开天窗）。
+      if (!DRY) {
+        try { fs.unlinkSync(p); } catch (x) {}
+        rewriteRefs(e.name);
+      }
       strayed++;
-      details.push('  - 删除冗余原件: ' + path.relative(ROOT, p));
+      details.push('  - 删除冗余原件并改写引用: ' + path.relative(ROOT, p));
       continue;
     }
     if (!DRY) {

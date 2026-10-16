@@ -1,0 +1,127 @@
+/* ============================================================
+ * Clarity · Design Tokens
+ * 所有颜色 / 字体 / 圆角 / 阴影 / 动效都集中在这里，换肤只改这一处
+ * ============================================================ */
+
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Helvetica Neue", "PingFang SC", "HarmonyOS Sans SC", "Source Han Sans SC",
+    "Noto Sans SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, "JetBrains Mono",
+    Menlo, Consolas, "Cascadia Code", monospace;
+
+  --bg: #ffffff;
+  --bg-subtle: #f5f5f7;
+  --surface: #ffffff;
+  --surface-2: #fbfbfd;
+  --text: #1d1d1f;
+  --text-2: #6e6e73;
+  --text-3: #86868b;
+  --separator: rgba(0, 0, 0, 0.10);
+  --separator-strong: rgba(0, 0, 0, 0.18);
+  --accent: #0071e3;
+  --accent-dark: #0a84ff;
+  --accent-soft: rgba(0, 113, 227, 0.10);
+  --accent-line: rgba(0, 113, 227, 0.18);
+  --nav-bg: rgba(255, 255, 255, 0.72);
+  --fill: rgba(120, 120, 128, 0.12);
+  --fill-2: rgba(120, 120, 128, 0.20);
+  --code-bg: #f6f8fa;
+
+  /* ---------- 液态玻璃 ---------- */
+  /* 页面环境光：玻璃要"看得出是玻璃"，背景得有颜色可透、可模糊 */
+  --ambient-1: rgba(0, 113, 227, 0.18);
+  --ambient-2: rgba(94, 92, 230, 0.15);
+  --ambient-3: rgba(255, 55, 95, 0.09);
+
+  --glass-blur: blur(26px) saturate(190%);
+  --glass-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.56));
+  --glass-bg-hover: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(255, 255, 255, 0.74));
+  /* 浮层（手机菜单 / 目录抽屉）：浮在照片或正文之上，底色要比普通卡片透得多 */
+  --glass-blur-float: blur(44px) saturate(180%);
+  --glass-bg-float: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+
+  --glass-edge: rgba(0, 0, 0, 0.06);        /* 外发丝线：纯白底上也能看出边界 */
+  --glass-hi: rgba(255, 255, 255, 0.98);    /* 上边缘高光 */
+  --glass-lo: rgba(255, 255, 255, 0.42);    /* 下边缘内反光：厚度感 */
+  --glass-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 12px 34px rgba(0, 0, 0, 0.10);
+
+  /* 夹层玻璃：卡片内部的小面板（数字条、分栏控件、时间线卡片）。
+     照封面 .btn-glass 的做法 —— 很透的底 + 1px 内环，几乎不投影，
+     这样看起来是"浮"在卡片上，而不是又贴了一张实心卡片。
+     亮色下白底透白看不出，所以底换成带一点灰的通透白。 */
+  --inset-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.34));
+  --inset-ring: rgba(255, 255, 255, 0.95);
+  --inset-bg-active: rgba(255, 255, 255, 0.98);
+  --inset-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+  --danger: #de3730;
+  --danger-soft: rgba(222, 55, 48, 0.10);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 8px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 18px 44px rgba(0, 0, 0, 0.13);
+
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --r-xl: 26px;
+  --r-pill: 980px;
+
+  --maxw: 1240px;
+  --readw: 716px;
+  --nav-h: 48px;
+  --rail: 224px;
+  --rail-gap: 48px;
+  --drawer-w: 320px;
+
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] {
+  --bg: #000000;
+  --bg-subtle: #0b0b0c;
+  --surface: #1c1c1e;
+  --surface-2: #161617;
+  --text: #f5f5f7;
+  --text-2: #a1a1a6;
+  --text-3: #86868b;
+  --separator: rgba(255, 255, 255, 0.14);
+  --separator-strong: rgba(255, 255, 255, 0.26);
+  --accent: var(--accent-dark);
+  --accent-soft: rgba(10, 132, 255, 0.16);
+  --accent-line: rgba(10, 132, 255, 0.28);
+  --nav-bg: rgba(18, 18, 19, 0.72);
+  --fill: rgba(120, 120, 128, 0.24);
+  --fill-2: rgba(120, 120, 128, 0.36);
+  --code-bg: #1c1c1e;
+
+  --ambient-1: rgba(10, 132, 255, 0.26);
+  --ambient-2: rgba(94, 92, 230, 0.22);
+  --ambient-3: rgba(191, 90, 242, 0.17);
+
+  --glass-blur: blur(26px) saturate(190%);
+  --glass-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.045));
+  --glass-bg-hover: linear-gradient(180deg, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.085));
+  --glass-blur-float: blur(44px) saturate(180%);
+  --glass-bg-float: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+
+  --glass-edge: rgba(255, 255, 255, 0.13);
+  --glass-hi: rgba(255, 255, 255, 0.15);
+  --glass-lo: rgba(0, 0, 0, 0.30);
+  --glass-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 14px 42px rgba(0, 0, 0, 0.55);
+
+  /* 夹层玻璃：数值直接对齐封面 .btn-glass（底 0.18 / 内环 0.3） */
+  --inset-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.20), rgba(255, 255, 255, 0.08));
+  --inset-ring: rgba(255, 255, 255, 0.30);
+  --inset-bg-active: rgba(255, 255, 255, 0.30);
+  --inset-shadow: 0 1px 2px rgba(0, 0, 0, 0.30);
+
+  --danger: #ff6961;
+  --danger-soft: rgba(255, 105, 97, 0.14);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 18px 44px rgba(0, 0, 0, 0.6);
+}

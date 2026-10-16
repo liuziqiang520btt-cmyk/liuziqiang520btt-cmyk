@@ -1,0 +1,18 @@
+extends includes/layout.pug
+
+block content
+  include includes/page/terms.pug
+  case page.type
+    when 'categories'
+      +termsPage('categories')
+    when 'tags'
+      +termsPage('tags')
+    when 'about'
+      include includes/page/about.pug
+    when '404'
+      include includes/page/404.pug
+    default
+      section.hero.hero-sm
+        h1.h1= page.title
+      section.section
+        article.page-body!= page.content

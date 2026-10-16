@@ -1,0 +1,94 @@
+-
+  var ab = theme.about || {}
+  var abCover = ab.cover || (theme.cover && theme.cover.image) || '/images/cover.jpg'
+  var abAvatar = ab.avatar || (theme.profile && theme.profile.avatar) || '/images/avatar.jpg'
+  var abName = ab.name || (theme.profile && theme.profile.name) || config.author || config.title
+  var abTagline = ab.tagline || (theme.profile && theme.profile.tagline) || ''
+  var hm = clarity_heatmap()
+  var recentCount = typeof ab.research_count === 'number' ? ab.research_count : 12
+  var recent = site.posts.sort('-date').limit(recentCount).toArray()
+  var hasResearch = (hm && hm.available) || (recent && recent.length)
+
+.about
+  .about-hero
+    .about-hero-bg(style='background-image:url(' + url_for(abCover) + ')')
+  .about-card
+    .about-head
+      if abAvatar
+        img.about-avatar(src=url_for(abAvatar), alt=abName, width='128', height='128', decoding='async')
+      .about-id
+        h1.about-name= abName
+        if abTagline
+          p.about-tagline= abTagline
+      if hasResearch
+        .about-tabs(role='tablist', aria-label='关于页分栏')
+          button.about-tab.is-active(type='button', role='tab', data-pane='intro', aria-selected='true') 自我介绍
+          button.about-tab(type='button', role='tab', data-pane='research', aria-selected='false') 研究动态
+    if theme.profile && theme.profile.stats !== false
+      .about-stats
+        .stat
+          span.stat-n= site.posts.length
+          span.stat-l= __('profile.posts')
+        .stat
+          span.stat-n= site.categories.length
+          span.stat-l= __('profile.categories')
+        .stat
+          span.stat-n= site.tags.length
+          span.stat-l= __('profile.tags')
+
+    .about-pane.is-active(data-pane='intro')
+      .about-content!= page.content
+
+    if hasResearch
+      .about-pane(data-pane='research', hidden)
+        if hm && hm.available
+          .heatmap
+            .heatmap-head
+              svg.hm-pulse(viewBox='0 0 30 14', fill='none', stroke='currentColor', stroke-width='1.7', stroke-linecap='round', stroke-linejoin='round', aria-hidden='true')
+                path(d='M0 7h5l2-4.6 3 9.6 2-5h4')
+              span.hm-title 近半年 #[strong= hm.total] 次提交
+              span.hm-sub 分布在 #[strong= hm.days] 天
+            .heatmap-scroll
+              .hm-months
+                each w in hm.weeks
+                  span= w.label
+              .hm-body
+                each w in hm.weeks
+                  .hm-week
+                    each d in w.days
+                      span.hm-day(class='lv' + d.level + (d.future ? ' is-future' : ''), title=d.date + '：' + d.count + ' 次提交')
+            .heatmap-foot
+              span.hm-scale
+                span.hm-scale-t 少
+                each lv in [0, 1, 2, 3, 4]
+                  span.hm-day(class='lv' + lv)
+                span.hm-scale-t 多
+        if recent && recent.length
+          .about-section
+            h2.h2= ab.research_title || '研究动态'
+            .timeline
+              each post in recent
+                - var cats = (post.categories && post.categories.length) ? post.categories.toArray() : []
+                - var tgs = (post.tags && post.tags.length) ? post.tags.toArray() : []
+                .tl-item
+                  span.tl-dot(aria-hidden='true')
+                  .tl-card
+                    .tl-date(style=clarity_gradient(post))
+                      time(datetime=date_xml(post.date))= date(post.date, 'MM-DD')
+                      span.tl-year= date(post.date, 'YYYY')
+                    .tl-body
+                      a.tl-title(href=url_for(post.path))= post.title || __('post.no_title')
+                      if post.summary
+                        p.tl-text= post.summary
+                      if cats.length || tgs.length
+                        .tl-meta
+                          each c in cats
+                            a.tl-cat(href=url_for(c.path))= c.name
+                          each t in tgs
+                            a.tl-tag(href=url_for(t.path))= '#' + t.name
+
+  //- 没有 JS 时把两栏都展开，并隐掉按钮
+  noscript
+    style.
+      .about-pane { display: block !important; }
+      .about-tabs { display: none !important; }

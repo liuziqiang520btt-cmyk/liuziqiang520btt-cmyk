@@ -106,10 +106,7 @@ code:
 
 lightbox: true                  # 正文图片点击放大
 
-footer:
-  since: 2025
-  statistics: true
-  powered: true
+# 注：页脚已移除（全站底部不再显示版权 / 导航 / 统计）
 
 appearance:
   default: auto                 # auto | light | dark
@@ -418,10 +415,10 @@ clarity/
 ├── languages/               中文 / 英文文案
 ├── scripts/helpers.js       注册给模板用的辅助函数（字数、摘要、渐变、阅读时长）
 ├── layout/
-│   ├── includes/layout.pug  基座（导航栏 + 封面插槽 + 栅格 + 页脚）
+│   ├── includes/layout.pug  基座（导航栏 + 封面插槽 + 栅格）
 │   ├── includes/cover.pug   首屏封面（含视差层）
 │   ├── includes/profile.pug 左侧个人栏
-│   ├── includes/            head / nav / footer / 分页 / 卡片 mixin
+│   ├── includes/            head / nav / 分页 / 卡片 mixin
 │   ├── index.pug            首页
 │   ├── post.pug             文章页（含目录抽屉）
 │   ├── page.pug             独立页面（含分类 / 标签 / 404）

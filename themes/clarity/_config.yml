@@ -76,14 +76,6 @@ code:
 # ---------- 图片 ----------
 lightbox: true
 
-# ---------- 页脚 ----------
-footer:
-  since: 2025
-  # 显示文章总数
-  statistics: true
-  # 显示 "Powered by"
-  powered: true
-
 # ---------- 外观 ----------
 appearance:
   # auto | light | dark

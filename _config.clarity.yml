@@ -44,11 +44,6 @@ code:
 
 lightbox: true
 
-footer:
-  since: 2025
-  statistics: true
-  powered: true
-
 appearance:
   default: auto
   switch: true
